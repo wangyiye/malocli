@@ -1,0 +1,41 @@
+#! /usr/bin/env node
+const program = require('commander');
+
+
+
+const clear = (cmd) => {
+    const args = {};
+    console.log(cmd.options)
+    // if(cmd.options)  cmd.options.forEach(option => {
+    //     option.long.slice(2)
+    //     if (cmd[key]) args[key] = cmd[key]
+    // });
+    return args
+}
+
+program
+    .command('create <app-name>')
+    .description('create a new project')
+    .option('-f,--force', 'overwrite target directory if it exists')
+    .action((name, cmd) => {
+        require('./lib/create')(name,cmd)
+    })
+
+program
+    .command('config [value]')
+    .description('insepct config ')
+    .option('-g, --get <path>','get value from option')
+    .option('-s, --set <path> <value>')
+    .option('-d, --delete <path> <value>', 'delete options')
+    .action((value, cmd) => {
+        console.log(value, cmd)
+    })
+
+program
+    .version(`malo-cli${require('../package.json').version}`)
+    .usage(`<command>[options]`)
+
+program.on('--help',() => {
+})
+// 解析执行命令
+program.parse(process.argv)
